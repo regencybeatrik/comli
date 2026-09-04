@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✦ Admin Panel — STROM X</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        /* ============================================================
+           RESET & BASE
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6c5ce7;
+            --primary-dark: #5a4bd1;
+            --secondary: #00cec9;
+            --accent: #fd79a8;
+            --dark: #0a0a1a;
+            --dark-card: rgba(255, 255, 255, 0.04);
+            --glass: rgba(255, 255, 255, 0.06);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+            --text-muted: rgba(255, 255, 255, 0.25);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --wa: #25D366;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ============================================================
+           HEADER
+           ============================================================ */
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0 20px;
+            border-bottom: 1px solid var(--glass-border);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .admin-header .logo {
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .admin-header .logo .logo-icon {
+            -webkit-text-fill-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .admin-header .user {
+            font-size: 14px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .admin-header .user .badge-admin {
+            background: rgba(108, 92, 231, 0.15);
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            color: var(--primary);
+            border: 1px solid rgba(108, 92, 231, 0.1);
+        }
+
+        .wa-chat-admin {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px 6px 10px;
+            background: rgba(37, 211, 102, 0.1);
+            border: 1px solid rgba(37, 211, 102, 0.15);
+            border-radius: 30px;
+            color: var(--wa);
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .wa-chat-admin:hover {
+            background: rgba(37, 211, 102, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-logout {
+            padding: 8px 20px;
+            background: rgba(255, 68, 68, 0.1);
+            border: 1px solid rgba(255, 68, 68, 0.15);
+            border-radius: 30px;
+            color: #ff4444;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-logout:hover {
+            background: rgba(255, 68, 68, 0.2);
+        }
+
+        /* ============================================================
+           LOGIN
+           ============================================================ */
+        #loginScreen {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-box {
+            background: var(--dark-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 40px 32px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .login-box .title {
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        .login-box .title .title-icon {
+            margin-right: 6px;
+        }
+
+        .login-box .sub {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .login-box .form-group {
+            margin-bottom: 16px;
+        }
+
+        .login-box .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .login-box .form-group .label-icon {
+            margin-right: 4px;
+        }
+
+        .login-box .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            color: #fff;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .login-box .form-group input:focus {
+            border-color: var(--primary);
+        }
+
+        .login-box .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: none;
+            border-radius: var(--radius-sm);
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+            margin-top: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-box .btn-login .btn-icon {
+            margin-right: 8px;
+        }
+
+        .login-box .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(108, 92, 231, 0.25);
+        }
+
+        .login-box .error {
+            color: var(--accent);
+            font-size: 13px;
+            text-align: center;
+            margin-top: 12px;
+            display: none;
+        }
+
+        .login-box .error.show {
+            display: block;
+        }
+
+        #adminContent {
+            display: none;
+        }
+
+        #adminContent.show {
+            display: block;
+        }
+
+        /* ============================================================
+           STATS
+           ============================================================ */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 14px;
+            margin: 20px 0 28px;
+        }
+
+        .stat-card {
+            background: var(--dark-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 18px 16px;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            border-color: rgba(108, 92, 231, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .stat-card .stat-icon {
+            font-size: 24px;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .stat-card .number {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-card .label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* ============================================================
+           TABS
+           ============================================================ */
+        .tab-nav {
+            display: flex;
+            gap: 4px;
+            background: var(--dark-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 4px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-nav button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--radius-sm);
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+            flex: 1;
+            min-width: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-nav button .tab-icon {
+            margin-right: 6px;
+        }
+
+        .tab-nav button.active {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(108, 92, 231, 0.2);
+        }
+
+        .tab-nav button:hover:not(.active) {
+            color: #fff;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* ============================================================
+           PRODUCT TABLE
+           ============================================================ */
+        .product-table-wrap {
+            overflow-x: auto;
+        }
+
+        .product-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .product-table th {
+            text-align: left;
+            padding: 12px 14px;
+            color: var(--text-muted);
+            font-weight: 500;
+            border-bottom: 1px solid var(--glass-border);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .product-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            vertical-align: middle;
+        }
+
+        .product-table tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .product-table .product-thumb {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-sm);
+            object-fit: cover;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .product-table .action-btn {
+            padding: 4px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+            margin-right: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-table .action-btn .btn-icon {
+            margin-right: 2px;
+        }
+
+        .product-table .action-btn.edit {
+            background: rgba(108, 92, 231, 0.15);
+            color: var(--primary);
+        }
+
+        .product-table .action-btn.edit:hover {
+            background: rgba(108, 92, 231, 0.25);
+        }
+
+        .product-table .action-btn.delete {
+            background: rgba(255, 68, 68, 0.1);
+            color: #ff4444;
+        }
+
+        .product-table .action-btn.delete:hover {
+            background: rgba(255, 68, 68, 0.2);
+        }
+
+        /* ============================================================
+           FORM TAMBAH PRODUK
+           ============================================================ */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-grid .full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .form-group .label-icon {
+            margin-right: 4px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            color: #fff;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--primary);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-group select option {
+            background: var(--dark);
+            color: #fff;
+        }
+
+        .btn-submit {
+            padding: 12px 32px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: none;
+            border-radius: var(--radius-sm);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-submit .btn-icon {
+            margin-right: 8px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(108, 92, 231, 0.25);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ============================================================
+           PREVIEW PRODUK
+           ============================================================ */
+        #previewSection {
+            margin-top: 24px;
+            display: none;
+        }
+
+        #previewSection.show {
+            display: block;
+        }
+
+        .preview-card {
+            background: var(--dark-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            padding: 20px;
+            max-width: 300px;
+        }
+
+        .preview-card .image-preview {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.03);
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            overflow: hidden;
+        }
+
+        .preview-card .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .preview-card .preview-name {
+            font-weight: 600;
+        }
+
+        .preview-card .preview-price {
+            color: var(--secondary);
+            font-weight: 700;
+        }
+
+        .preview-card .preview-category {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* ============================================================
+           BUKTI LIST
+           ============================================================ */
+        .bukti-item {
+            background: var(--dark-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            transition: var(--transition);
+        }
+
+        .bukti-item:hover {
+            border-color: rgba(108, 92, 231, 0.1);
+        }
+
+        .bukti-item .info {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .bukti-item .info strong {
+            color: #fff;
+        }
+
+        .bukti-item .status {
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .bukti-item .status.pending {
+            background: rgba(255, 200, 0, 0.1);
+            color: #ffd700;
+        }
+
+        .bukti-item .status.verified {
+            background: rgba(0, 206, 201, 0.1);
+            color: var(--secondary);
+        }
+
+        .bukti-item .verify-btn {
+            padding: 4px 14px;
+            border: none;
+            border-radius: 6px;
+            background: rgba(0, 206, 201, 0.15);
+            color: var(--secondary);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bukti-item .verify-btn .btn-icon {
+            margin-right: 4px;
+        }
+
+        .bukti-item .verify-btn:hover {
+            background: rgba(0, 206, 201, 0.25);
+        }
+
+        /* ============================================================
+           TOAST
+           ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 12px 24px;
+            border-radius: 14px;
+            font-size: 14px;
+            color: #fff;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s ease;
+            z-index: 200;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        .toast .toast-icon {
+            margin-right: 8px;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ============================================================
+           RIPPLE EFFECT
+           ============================================================ */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(0);
+            animation: rippleAnim 0.6s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes rippleAnim {
+            to {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+
+        /* ============================================================
+           EMOJI ANIMATIONS
+           ============================================================ */
+        .emoji-bounce {
+            display: inline-block;
+            animation: emojiBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes emojiBounce {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        .emoji-spin {
+            display: inline-block;
+            animation: emojiSpin 4s linear infinite;
+        }
+
+        @keyframes emojiSpin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .emoji-float {
+            display: inline-block;
+            animation: emojiFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes emojiFloat {
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 640px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-grid .full {
+                grid-column: 1;
+            }
+            .admin-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .tab-nav button {
+                font-size: 12px;
+                padding: 8px 12px;
+                min-width: 60px;
+            }
+            .product-table th,
+            .product-table td {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+            .admin-header .user {
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .login-box {
+                padding: 28px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast">
+        <span class="toast-icon">✅</span>
+        <span id="toastMessage">Sukses!</span>
+    </div>
+
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen">
+        <div class="login-box">
+            <div class="title">
+                <span class="title-icon">🔐</span> Admin Panel
+            </div>
+            <div class="sub">✦ STROM X — Product Manager</div>
+
+            <div class="form-group">
+                <label><span class="label-icon">📧</span> Email</label>
+                <input type="email" id="loginEmail" placeholder="admin@stromx.com" value="admin@stromx.com">
+            </div>
+            <div class="form-group">
+                <label><span class="label-icon">🔑</span> Password</label>
+                <input type="password" id="loginPassword" placeholder="••••••••" value="admin123">
+            </div>
+
+            <button class="btn-login" id="loginBtn">
+                <span class="btn-icon">🚀</span> Login
+            </button>
+            <div class="error" id="loginError">❌ Email atau password salah!</div>
+            <div style="text-align:center;margin-top:16px;font-size:12px;color:var(--text-muted);">
+                📝 Demo: admin@stromx.com / admin123
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN CONTENT -->
+    <div id="adminContent">
+
+        <div class="container">
+
+            <!-- HEADER -->
+            <div class="admin-header">
+                <div class="logo">
+                    <span class="logo-icon">✦</span> STROM X
+                    <span style="font-weight:400;font-size:14px;color:var(--text-muted);-webkit-text-fill-color:var(--text-muted);">Admin</span>
+                </div>
+                <div class="user">
+                    <span>👤 <span id="adminName">Admin</span></span>
+                    <span class="badge-admin">🛡️ Admin</span>
+                    <a href="https://wa.me/6283187714996?text=Halo%20Admin%20StromX%2C%20saya%20butuh%20bantuan." target="_blank" class="wa-chat-admin">
+                        <span class="wa-icon">💬</span><span>Chat</span>
+                    </a>
+                    <button class="btn-logout" id="logoutBtn">
+                        <span class="btn-icon">🚪</span> Logout
+                    </button>
+                </div>
+            </div>
+
+            <!-- STATS -->
+            <div class="stats-grid" id="adminStats">
+                <div class="stat-card">
+                    <span class="stat-icon emoji-bounce">📦</span>
+                    <div class="number" id="statTotalProducts">0</div>
+                    <div class="label">Total Produk</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon emoji-float">📋</span>
+                    <div class="number" id="statOrders">0</div>
+                    <div class="label">Total Order</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon emoji-spin">💰</span>
+                    <div class="number" id="statRevenue">Rp0</div>
+                    <div class="label">Pendapatan</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon">📷</span>
+                    <div class="number" id="statBukti">0</div>
+                    <div class="label">Bukti Menunggu</div>
+                </div>
+            </div>
+
+            <!-- TABS -->
+            <div class="tab-nav">
+                <button class="active" data-tab="products">
+                    <span class="tab-icon">📦</span> Kelola Produk
+                </button>
+                <button data-tab="add">
+                    <span class="tab-icon">➕</span> Tambah Produk
+                </button>
+                <button data-tab="bukti">
+                    <span class="tab-icon">📷</span> Verifikasi Bukti
+                </button>
+            </div>
+
+            <!-- TAB: PRODUCTS -->
+            <div class="tab-content active" id="tab-products">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
+                    <div style="font-size:16px;font-weight:600;">
+                        <span class="emoji-bounce">📋</span> Semua Produk
+                    </div>
+                    <input type="text" id="adminSearch" placeholder="🔍 Cari produk..." style="padding:8px 16px;background:var(--glass);border:1px solid var(--glass-border);border-radius:30px;color:#fff;font-size:13px;font-family:'Inter',sans-serif;outline:none;width:200px;">
+                </div>
+                <div class="product-table-wrap">
+                    <table class="product-table" id="productTable">
+                        <thead>
+                            <tr>
+                                <th>🖼️ Gambar</th>
+                                <th>📛 Nama</th>
+                                <th>💰 Harga</th>
+                                <th>📦 Stok</th>
+                                <th>📂 Kategori</th>
+                                <th>⚙️ Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB: ADD PRODUCT -->
+            <div class="tab-content" id="tab-add">
+                <div style="font-size:18px;font-weight:700;margin-bottom:16px;">
+                    <span class="emoji-float">➕</span> Tambah Produk Baru
+                </div>
+
+                <form id="productForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label><span class="label-icon">📷</span> URL Gambar</label>
+                            <input type="text" id="fImage" placeholder="https://placehold.co/400x400/...">
+                        </div>
+                        <div class="form-group">
+                            <label><span class="label-icon">📂</span> Kategori</label>
+                            <select id="fCategory">
+                                <option value="💻 Elektronik">💻 Elektronik</option>
+                                <option value="👕 Fashion">👕 Fashion</option>
+                                <option value="🍕 Makanan">🍕 Makanan</option>
+                                <option value="💊 Kesehatan">💊 Kesehatan</option>
+                                <option value="📚 Lainnya">📚 Lainnya</option>
+                            </select>
+                        </div>
+                        <div class="form-group full">
+                            <label><span class="label-icon">📛</span> Nama Produk</label>
+                            <input type="text" id="fName" placeholder="Nama produk..." required>
+                        </div>
+                        <div class="form-group full">
+                            <label><span class="label-icon">📝</span> Deskripsi</label>
+                            <textarea id="fDescription" placeholder="Deskripsi produk..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label><span class="label-icon">💰</span> Harga</label>
+                            <input type="number" id="fPrice" placeholder="100000" required>
+                        </div>
+                        <div class="form-group">
+                            <label><span class="label-icon">🏷️</span> Harga Diskon</label>
+                            <input type="number" id="fDiscount" placeholder="80000">
+                        </div>
+                        <div class="form-group">
+                            <label><span class="label-icon">📦</span> Stok</label>
+                            <input type="number" id="fStock" placeholder="10" value="10">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit" id="submitProductBtn">
+                        <span class="btn-icon">🚀</span> Publish Produk
+                    </button>
+                </form>
+
+                <div id="previewSection">
+                    <div style="font-size:14px;font-weight:600;margin-bottom:8px;">
+                        <span class="emoji-float">📱</span> Preview Produk
+                    </div>
+                    <div class="preview-card">
+                        <div class="image-preview" id="previewImage">🖼️ Preview</div>
+                        <div class="preview-name" id="previewName">📛 Nama Produk</div>
+                        <div class="preview-price" id="previewPrice">💰 Rp0</div>
+                        <div class="preview-category" id="previewCategory">📂 Kategori</div>
+                        <div style="font-size:12px;color:var(--text-muted);" id="previewStock">📦 Stok: 0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: BUKTI -->
+            <div class="tab-content" id="tab-bukti">
+                <div style="font-size:18px;font-weight:700;margin-bottom:16px;">
+                    <span class="emoji-float">📷</span> Verifikasi Bukti Pembayaran
+                </div>
+                <div id="buktiListAdmin"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ============================================================
+    SCRIPT — TERINTEGRASI DENGAN LOCALSTORAGE
+    ============================================================ -->
+    <script>
+        // ============================================================
+        // RIPPLE EFFECT
+        // ============================================================
+        document.addEventListener('click', function(e) {
+            const target = e.target.closest('.btn-login, .btn-submit, .tab-nav button, .verify-btn, .action-btn, .stat-card');
+            if (!target) return;
+
+            const ripple = document.createElement('span');
+            ripple.className = 'ripple';
+            const rect = target.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+            ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+            target.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+
+        // ============================================================
+        // STORAGE KEYS — SAMA DENGAN WEBSITE CUSTOMER
+        // ============================================================
+
+        const STORAGE_KEYS = {
+            PRODUCTS: 'strom_products',
+            BUKTI: 'strom_bukti',
+            REVENUE: 'strom_revenue',
+            ORDERS: 'strom_orders'
+        };
+
+        // ============================================================
+        // LOAD DATA DARI LOCALSTORAGE
+        // ============================================================
+
+        function loadData() {
+            let products = JSON.parse(localStorage.getItem(STORAGE_KEYS.PRODUCTS));
+            let buktiList = JSON.parse(localStorage.getItem(STORAGE_KEYS.BUKTI));
+
+            if (!products) {
+                products = [
+                    { id: 1, name: 'Smartphone Galaxy S24', price: 12000000, discount_price: 10999000, image: 'https://placehold.co/400x400/1a1a2e/6c5ce7?text=📱', description: 'Smartphone flagship dengan kamera 200MP.', category: '💻 Elektronik', stock: 15 },
+                    { id: 2, name: 'Headphone Wireless Pro', price: 2500000, discount_price: 1999000, image: 'https://placehold.co/400x400/1a1a2e/00cec9?text=🎧', description: 'Headphone wireless dengan noise cancellation.', category: '🎧 Elektronik', stock: 8 },
+                    { id: 3, name: 'Jaket Premium Leather', price: 1500000, discount_price: null, image: 'https://placehold.co/400x400/1a1a2e/fd79a8?text=🧥', description: 'Jaket kulit premium dengan desain klasik.', category: '👕 Fashion', stock: 3 },
+                    { id: 4, name: 'Smartwatch Fit Pro', price: 3500000, discount_price: 2999000, image: 'https://placehold.co/400x400/1a1a2e/6c5ce7?text=⌚', description: 'Smartwatch dengan GPS dan heart rate monitor.', category: '⌚ Elektronik', stock: 20 },
+                    { id: 5, name: 'Sepatu Running Air Max', price: 1800000, discount_price: null, image: 'https://placehold.co/400x400/1a1a2e/00cec9?text=👟', description: 'Sepatu running dengan teknologi Air Max.', category: '👟 Fashion', stock: 6 },
+                    { id: 6, name: 'Kopi Premium Arabica', price: 350000, discount_price: 299000, image: 'https://placehold.co/400x400/1a1a2e/fd79a8?text=☕', description: 'Kopi arabica premium dari dataran tinggi.', category: '☕ Makanan', stock: 50 }
+                ];
+                localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(products));
+            }
+
+            if (!buktiList) {
+                buktiList = [];
+                localStorage.setItem(STORAGE_KEYS.BUKTI, JSON.stringify(buktiList));
+            }
+
+            return { products, buktiList };
+        }
+
+        let data = loadData();
+        let products = data.products;
+        let buktiList = data.buktiList;
+        let currentId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
+        let isLoggedIn = false;
+
+        // ============================================================
+        // TOAST
+        // ============================================================
+
+        function showToast(msg, icon = '✅') {
+            const t = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = msg;
+            t.querySelector('.toast-icon').textContent = icon;
+            t.classList.add('show');
+            clearTimeout(t._timer);
+            t._timer = setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        // ============================================================
+        // LOGIN
+        // ============================================================
+
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const errorEl = document.getElementById('loginError');
+
+            if (email === 'admin@stromx.com' && password === 'admin123') {
+                isLoggedIn = true;
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('adminContent').classList.add('show');
+                document.getElementById('adminName').textContent = 'Admin';
+                renderAdminProducts();
+                updateAdminStats();
+                renderBuktiAdmin();
+                showToast('Login berhasil!', '✅');
+            } else {
+                errorEl.classList.add('show');
+                setTimeout(() => errorEl.classList.remove('show'), 3000);
+                showToast('Email atau password salah!', '❌');
+            }
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            isLoggedIn = false;
+            document.getElementById('adminContent').classList.remove('show');
+            document.getElementById('loginScreen').style.display = 'flex';
+            showToast('Logout berhasil.', '👋');
+        });
+
+        document.getElementById('loginPassword').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') document.getElementById('loginBtn').click();
+        });
+
+        // ============================================================
+        // RENDER ADMIN PRODUCTS
+        // ============================================================
+
+        function renderAdminProducts(filter = '') {
+            const tbody = document.getElementById('productTableBody');
+            const filtered = products.filter(p =>
+                p.name.toLowerCase().includes(filter.toLowerCase()) ||
+                (p.category && p.category.toLowerCase().includes(filter.toLowerCase()))
+            );
+
+            if (filtered.length === 0) {
+                tbody.innerHTML =
+                    `<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:30px 0;">
+                        <span style="font-size:24px;display:block;margin-bottom:4px;">📭</span>
+                        Tidak ada produk.
+                    </td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(p => `
+                        <tr>
+                            <td><img src="${p.image}" class="product-thumb" alt="${p.name}"></td>
+                            <td><strong>${p.name}</strong></td>
+                            <td>💰 Rp${(p.discount_price || p.price).toLocaleString()}</td>
+                            <td>📦 ${p.stock}</td>
+                            <td>${p.category || '📂 -'}</td>
+                            <td>
+                                <button class="action-btn edit" onclick="editProduct(${p.id})">
+                                    <span class="btn-icon">✏️</span> Edit
+                                </button>
+                                <button class="action-btn delete" onclick="deleteProduct(${p.id})">
+                                    <span class="btn-icon">🗑️</span> Hapus
+                                </button>
+                            </td>
+                        </tr>
+                    `).join('');
+        }
+
+        // ============================================================
+        // ADMIN STATS
+        // ============================================================
+
+        function updateAdminStats() {
+            const totalRevenue = buktiList.reduce((sum, b) => sum + (b.total || 0), 0);
+            document.getElementById('statTotalProducts').textContent = products.length;
+            document.getElementById('statOrders').textContent = buktiList.length;
+            document.getElementById('statRevenue').textContent = 'Rp' + totalRevenue.toLocaleString();
+            document.getElementById('statBukti').textContent = buktiList.filter(b => b.status === 'pending').length;
+        }
+
+        // ============================================================
+        // 🔥 TAMBAH PRODUK — LANGSUNG SYNC KE CUSTOMER
+        // ============================================================
+
+        document.getElementById('productForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('fName').value.trim();
+            const price = parseInt(document.getElementById('fPrice').value);
+            const description = document.getElementById('fDescription').value.trim();
+            const image = document.getElementById('fImage').value.trim() || 'https://placehold.co/400x400/1a1a2e/6c5ce7?text=🛍️';
+            const category = document.getElementById('fCategory').value;
+            const stock = parseInt(document.getElementById('fStock').value) || 0;
+            const discount_price = parseInt(document.getElementById('fDiscount').value) || null;
+
+            if (!name || !price) {
+                showToast('Nama dan harga wajib diisi!', '❌');
+                return;
+            }
+
+            const newProduct = {
+                id: currentId++,
+                name,
+                price,
+                discount_price,
+                image,
+                description: description || 'Deskripsi produk.',
+                category,
+                stock
+            };
+
+            products.push(newProduct);
+            
+            // 🔥 SIMPAN KE LOCALSTORAGE — LANGSUNG TERSEDIA DI WEBSITE CUSTOMER
+            localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(products));
+            
+            renderAdminProducts();
+            updateAdminStats();
+
+            document.getElementById('productForm').reset();
+            document.getElementById('fStock').value = 10;
+            document.getElementById('previewSection').classList.remove('show');
+
+            showToast(`✅ Produk "${name}" berhasil dipublish dan muncul di website!`, '🚀');
+        });
+
+        // ============================================================
+        // EDIT PRODUCT
+        // ============================================================
+
+        function editProduct(id) {
+            const p = products.find(x => x.id === id);
+            if (!p) return;
+
+            document.getElementById('fName').value = p.name;
+            document.getElementById('fPrice').value = p.price;
+            document.getElementById('fDescription').value = p.description || '';
+            document.getElementById('fImage').value = p.image || '';
+            document.getElementById('fCategory').value = p.category || '📚 Lainnya';
+            document.getElementById('fStock').value = p.stock || 0;
+            document.getElementById('fDiscount').value = p.discount_price || '';
+
+            showPreview();
+
+            products = products.filter(x => x.id !== id);
+
+            const btn = document.getElementById('submitProductBtn');
+            btn.innerHTML = '<span class="btn-icon">🔄</span> Update Produk';
+            btn.dataset.editId = id;
+
+            document.querySelector('[data-tab="add"]').click();
+            document.getElementById('tab-add').scrollIntoView({ behavior: 'smooth' });
+
+            showToast(`Edit produk: ${p.name}`, '✏️');
+        }
+
+        document.getElementById('productForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const editId = document.getElementById('submitProductBtn').dataset.editId;
+
+            if (editId) {
+                const name = document.getElementById('fName').value.trim();
+                const price = parseInt(document.getElementById('fPrice').value);
+                const description = document.getElementById('fDescription').value.trim();
+                const image = document.getElementById('fImage').value.trim() || 'https://placehold.co/400x400/1a1a2e/6c5ce7?text=🛍️';
+                const category = document.getElementById('fCategory').value;
+                const stock = parseInt(document.getElementById('fStock').value) || 0;
+                const discount_price = parseInt(document.getElementById('fDiscount').value) || null;
+
+                if (!name || !price) {
+                    showToast('Nama dan harga wajib diisi!', '❌');
+                    return;
+                }
+
+                const updatedProduct = {
+                    id: parseInt(editId),
+                    name,
+                    price,
+                    discount_price,
+                    image,
+                    description: description || 'Deskripsi produk.',
+                    category,
+                    stock
+                };
+
+                products.push(updatedProduct);
+                
+                // 🔥 SIMPAN KE LOCALSTORAGE — UPDATE DI WEBSITE CUSTOMER
+                localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(products));
+                
+                renderAdminProducts();
+                updateAdminStats();
+
+                document.getElementById('productForm').reset();
+                document.getElementById('fStock').value = 10;
+                document.getElementById('previewSection').classList.remove('show');
+                document.getElementById('submitProductBtn').innerHTML = '<span class="btn-icon">🚀</span> Publish Produk';
+                delete document.getElementById('submitProductBtn').dataset.editId;
+
+                showToast(`✅ Produk "${name}" berhasil diupdate!`, '🔄');
+                return;
+            }
+        });
+
+        // ============================================================
+        // 🔥 DELETE PRODUCT — LANGSUNG HAPUS DARI CUSTOMER
+        // ============================================================
+
+        function deleteProduct(id) {
+            const p = products.find(x => x.id === id);
+            if (!p) return;
+
+            if (confirm(`🗑️ Hapus produk "${p.name}" dari website?`)) {
+                products = products.filter(x => x.id !== id);
+                
+                // 🔥 HAPUS DARI LOCALSTORAGE — LANGSUNG HILANG DI WEBSITE CUSTOMER
+                localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(products));
+                
+                renderAdminProducts();
+                updateAdminStats();
+                showToast(`✅ Produk "${p.name}" dihapus dari website!`, '🗑️');
+            }
+        }
+
+        // ============================================================
+        // PREVIEW
+        // ============================================================
+
+        function showPreview() {
+            const section = document.getElementById('previewSection');
+            section.classList.add('show');
+
+            const name = document.getElementById('fName').value || 'Nama Produk';
+            const price = parseInt(document.getElementById('fPrice').value) || 0;
+            const discount = parseInt(document.getElementById('fDiscount').value) || 0;
+            const category = document.getElementById('fCategory').value || 'Kategori';
+            const stock = parseInt(document.getElementById('fStock').value) || 0;
+            const image = document.getElementById('fImage').value || 'https://placehold.co/400x400/1a1a2e/6c5ce7?text=🛍️';
+
+            document.getElementById('previewName').textContent = name;
+            document.getElementById('previewPrice').textContent = 'Rp' + (discount || price).toLocaleString();
+            document.getElementById('previewCategory').textContent = '📂 ' + category;
+            document.getElementById('previewStock').textContent = '📦 Stok: ' + stock;
+            document.getElementById('previewImage').innerHTML =
+                `<img src="${image}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">`;
+        }
+
+        document.querySelectorAll('#productForm input, #productForm textarea, #productForm select').forEach(el => {
+            el.addEventListener('input', showPreview);
+            el.addEventListener('change', showPreview);
+        });
+
+        // ============================================================
+        // TABS
+        // ============================================================
+
+        document.querySelectorAll('.tab-nav button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tab-nav button').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                const tab = this.dataset.tab;
+                document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+                document.getElementById('tab-' + tab).classList.add('active');
+
+                if (tab === 'bukti') renderBuktiAdmin();
+            });
+        });
+
+        // ============================================================
+        // SEARCH
+        // ============================================================
+
+        document.getElementById('adminSearch').addEventListener('input', function() {
+            renderAdminProducts(this.value);
+        });
+
+        // ============================================================
+        // BUKTI ADMIN — LOAD DARI LOCALSTORAGE (SYNC DENGAN CUSTOMER)
+        // ============================================================
+
+        function renderBuktiAdmin() {
+            // 🔥 AMBIL DATA BUKTI DARI LOCALSTORAGE — SAMA DENGAN CUSTOMER
+            buktiList = JSON.parse(localStorage.getItem(STORAGE_KEYS.BUKTI)) || [];
+            const container = document.getElementById('buktiListAdmin');
+
+            if (buktiList.length === 0) {
+                container.innerHTML =
+                    `<div style="color:var(--text-muted);font-size:14px;padding:12px 0;">
+                        <span style="font-size:24px;display:block;margin-bottom:4px;">📭</span>
+                        Belum ada bukti masuk.
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = buktiList.map((b, index) => `
+                        <div class="bukti-item">
+                            <div class="info">
+                                <strong>🆔 ${b.order}</strong>
+                                <div style="font-size:12px;color:var(--text-muted);">📅 ${b.date}</div>
+                                ${b.total ? `<div style="font-size:12px;color:var(--secondary);">💰 Rp${b.total.toLocaleString()}</div>` : ''}
+                                ${b.file ? `<div style="font-size:11px;color:var(--text-muted);">📎 ${b.file}</div>` : '<div style="font-size:11px;color:var(--text-muted);">📎 Belum ada file</div>'}
+                            </div>
+                            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                                <span class="status ${b.status}">${b.status === 'pending' ? '⏳ Pending' : '✅ Verified'}</span>
+                                ${b.status === 'pending' ? `<button class="verify-btn" onclick="verifyBukti(${index})"><span class="btn-icon">✅</span> Verifikasi</button>` : ''}
+                            </div>
+                        </div>
+                    `).join('');
+        }
+
+        function verifyBukti(index) {
+            // 🔥 AMBIL DATA TERBARU DARI LOCALSTORAGE
+            buktiList = JSON.parse(localStorage.getItem(STORAGE_KEYS.BUKTI)) || [];
+            buktiList[index].status = 'verified';
+            
+            // 🔥 SIMPAN PERUBAHAN — LANGSUNG UPDATE DI CUSTOMER
+            localStorage.setItem(STORAGE_KEYS.BUKTI, JSON.stringify(buktiList));
+            
+            renderBuktiAdmin();
+            updateAdminStats();
+            showToast('✅ Bukti berhasil diverifikasi!', '✅');
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+
+        renderAdminProducts();
+        updateAdminStats();
+        renderBuktiAdmin();
+
+        console.log('🚀 STROM X Admin Panel Loaded');
+        console.log('🔥 VANQO & FLOX — 1000 COMMANDS');
+        console.log('📡 ' + products.length + ' products loaded (Sync dengan Customer)');
+        console.log('💬 WhatsApp Admin: 6283187714996');
+        console.log('🔗 Terintegrasi dengan localStorage STROM X');
+        console.log('✅ Setiap perubahan LANGSUNG terlihat di website customer!');
+    </script>
+
+</body>
+</html>
